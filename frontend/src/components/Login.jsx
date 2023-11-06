@@ -20,7 +20,7 @@ export function Login (props) {
       navigate('/dashboard')
       return res
     } catch (error) {
-      console.error('Error:', error);
+      props.setError(error.response.data.error)
       return error.response;
     }
   }

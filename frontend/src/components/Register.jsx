@@ -14,7 +14,7 @@ export function Register (props) {
   const registerUser = async () => {
     try {
       if (cpassword !== password) {
-        console.error('Error: Password does not match');
+        props.setError('Password does not match');
         return;
       }
       const res = await axios.post('http://localhost:5005/user/auth/register', { email, password, name })
@@ -23,7 +23,7 @@ export function Register (props) {
       navigate('/login')
       return res
     } catch (error) {
-      console.error('Error:', error);
+      props.setError(error.response.data.error)
       return error.response;
     }
   }
