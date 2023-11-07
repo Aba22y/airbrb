@@ -13,7 +13,7 @@ export function Banner (props) {
                 {props.token
                   ? (<>
                     <Button color="inherit" component={Link} to="/dashboard">Dashboard</Button>
-                    <Button color="inherit" component={Link} to="/mylisting">My Listings</Button>
+                    <Button color="inherit" component={Link} to="/mylistings">My Listings</Button>
                     <Button color="inherit" onClick={() => {
                       props.setToken(null)
                       navigate('/login');

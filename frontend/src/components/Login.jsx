@@ -17,6 +17,7 @@ export function Login (props) {
 
       console.log('Status Code:', success);
       props.setToken(data.token);
+      localStorage.setItem('email', email)
       navigate('/dashboard')
       return res
     } catch (error) {
@@ -36,6 +37,7 @@ export function Login (props) {
             </Typography>
             <TextField id="outlined-basic" label="Username" variant="outlined" fullWidth sx={{ mb: 2 }} onChange={(event) => setEmail(event.target.value)} />
             <TextField id="outlined-basic" label="Password" variant="outlined" type='password' fullWidth sx={{ mb: 2 }} onChange={(event) => setPassword(event.target.value)} />
+            <TextField type="file" />
             <Button variant="contained" type="submit" sx={{ m: 1 }}>Sign in</Button>
             <Button variant="contained" sx={{ m: 1 }}>Register</Button>
         </form>

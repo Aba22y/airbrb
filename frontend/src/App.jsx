@@ -6,6 +6,7 @@ import { Alert } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Banner } from './components/Banner';
 import { Mylisting } from './components/Mylistings';
+import { Makelisting } from './components/Makelisting';
 
 function LandingPage () {
   return (
@@ -32,8 +33,8 @@ function App () {
           <Route path="/login" element={<Login token={token} setToken={setToken} setError={setError}/>} />
           <Route path="/register" element={<Register token={token} setToken={setToken} setError={setError} />} />
           <Route path="/dashboard" element={<Dashboard token={token} setToken={setToken}/>} />
-          <Route path="/mylistings" element={<Mylisting token={token} setToken={setToken}/>} />
-          <Route path="/makelisting" element={<Mylisting token={token} setToken={setToken}/>} />
+          <Route path="/mylistings" element={<Mylisting token={token} setToken={setToken} setError={setError}/>} />
+          <Route path="/makelisting" element={<Makelisting token={token} setToken={setToken} setError={setError}/>} />
         </Routes>
       </Router>
     </>
