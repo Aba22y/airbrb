@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { Button, Stack, Box, Container, Typography } from '@mui/material';
+import { Button, Stack, Box, Container, Typography, Rating, Divider } from '@mui/material';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Image from 'material-ui-image'
 
 export function Mylisting (props) {
   const [listings, setListings] = React.useState([]);
@@ -11,9 +12,19 @@ export function Mylisting (props) {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:5005/listings');
-        setListings(response.data.listings);
+        const allListings = response.data.listings;
+        const myListingsPromise = allListings.map(async (listing) => {
+          if (listing.owner === localStorage.getItem('email')) {
+            const details = await axios.get(`http://localhost:5005/listings/${listing.id}`)
+            const listingData = details.data.listing
+            listingData.id = listing.id
+            return listingData
+          }
+        })
+        const myListings = await Promise.all(myListingsPromise)
+        setListings(myListings)
       } catch (error) {
-        props.setError('Error fetching listings:')
+        props.setError('Error fetching listings')
       }
     };
 
@@ -21,26 +32,43 @@ export function Mylisting (props) {
   }, [])
 
   return (
-    <>
-      <Stack direction="row" spacing={2}>
-        {listings.map((listing) => {
-          return (
-            <Box key={listing.id}>
-              <Container maxWidth="sm">
-              <Stack spacing={2}>
-                <Typography variant="h1">
-                 {listing.title}
-                </Typography>
-                <Typography>
-                 {listing.owner}
-                </Typography>
-              </Stack>
-              </Container>
-            </Box>
-          )
-        })}
-      </Stack>
-      <Button color="inherit" component={Link} to="/makelisting">Login</Button>
-    </>
+    <div style={{ height: '75vh', maxWidth: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div style={{ height: '75%', maxWidth: '100%', overflowX: 'auto', mb: 3 }}>
+        <Stack direction="row" spacing={2} divider={<Divider orientation="vertical" flexItem />} sx={{ mb: 3 }}>
+          {listings.map((listing) => {
+            return (
+              <Box key={listing}>
+                <Container maxWidth="sm">
+                <Stack spacing={2}>
+                  <Typography variant="h4">
+                  {listing.title}
+                  </Typography>
+                  <Typography variant="body1">
+                  Type: {listing.metadata.type}
+                  </Typography>
+                  <Typography variant="body1">
+                  Beds: {listing.metadata.nbed}
+                  </Typography>
+                  <Typography variant="body1">
+                  Bathrooms: {listing.metadata.nbath}
+                  </Typography>
+                  <Image src={listing.thumbnail ? listing.thumbnail : 'https://static.thenounproject.com/png/340719-200.png'} />
+                  <Rating name="read-only" value={0} readOnly />
+                  <Typography variant="body1">
+                    0 Reviews
+                  </Typography>
+                  <Typography variant="body1">
+                    $ {listing.price}
+                  </Typography>
+                </Stack>
+                <Button variant="outlined" component={Link} to={`/editlisting/${listing.id}`}>Edit</Button>
+                </Container>
+              </Box>
+            )
+          })}
+        </Stack>
+      </div>
+      <Button variant="contained" component={Link} to="/makelisting">Make listing</Button>
+    </div>
   )
 }

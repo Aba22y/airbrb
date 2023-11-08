@@ -43,7 +43,7 @@ export function Makelisting (props) {
           address,
           price,
           thumbnail,
-          metadata: { type, nbath, nbed, amenities, email: localStorage.getItem('email') }
+          metadata: { type, nbath, nbed, amenities }
         },
         { headers: { Authorization: `Bearer ${props.token}` } }
       )
@@ -87,13 +87,14 @@ export function Makelisting (props) {
         <TextField
           type="file"
           fullWidth
+          margin='normal'
           onChange={async (event) => {
             const image = await getBase64(event.target.files[0])
             setThumbnail(image)
           }}
         />
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <FormControl fullWidth margin='normal'>
+          <InputLabel id="demo-simple-select-label">Type</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
@@ -126,7 +127,7 @@ export function Makelisting (props) {
           variant="outlined"
           margin="normal"
           fullWidth
-          onChange={(event) => setAmenities(amenities.push(event.target.value))}
+          onChange={(event) => setAmenities(event.target.value)}
         />
         <Button variant="contained" type='submit'>Make Listing</Button>
       </form>

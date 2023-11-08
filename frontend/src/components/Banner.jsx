@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 export function Banner (props) {
   const navigate = useNavigate();
   return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1, mb: 2 }}>
           <AppBar position="static">
             <Toolbar>
                 {props.token
