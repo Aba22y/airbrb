@@ -33,7 +33,7 @@ export function Mylisting (props) {
 
   return (
     <div style={{ height: '75vh', maxWidth: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <div style={{ height: '75%', maxWidth: '100%', overflowX: 'auto', mb: 3 }}>
+      <div style={{ height: '100%', maxWidth: '100%', overflowX: 'auto', mb: 3 }}>
         <Stack direction="row" spacing={2} divider={<Divider orientation="vertical" flexItem />} sx={{ mb: 3 }}>
           {listings.map((listing) => {
             return (
@@ -62,6 +62,7 @@ export function Mylisting (props) {
                   </Typography>
                 </Stack>
                 <Button variant="outlined" component={Link} to={`/editlisting/${listing.id}`}>Edit</Button>
+                <Button variant="outlined" component={Link} to={`/publish/${listing.id}`}>Post</Button>
                 </Container>
               </Box>
             )

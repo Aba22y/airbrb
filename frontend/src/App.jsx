@@ -8,6 +8,7 @@ import { Banner } from './components/Banner';
 import { Mylisting } from './components/Mylistings';
 import { Makelisting } from './components/Makelisting';
 import { Editlisting } from './components/Editlisting';
+import { Publish } from './components/Publish';
 
 function LandingPage () {
   return (
@@ -37,6 +38,7 @@ function App () {
           <Route path="/mylistings" element={<Mylisting token={token} setToken={setToken} setError={setError}/>} />
           <Route path="/makelisting" element={<Makelisting token={token} setToken={setToken} setError={setError}/>} />
           <Route path="/editlisting/:id" element={<Editlisting token={token} setToken={setToken} setError={setError}/>} />
+          <Route path="/publish/:id" element={<Publish token={token} setToken={setToken} setError={setError}/>} />
         </Routes>
       </Router>
     </>

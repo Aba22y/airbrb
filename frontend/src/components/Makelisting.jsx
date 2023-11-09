@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // Convert image to base64, taken from assignment3
-function getBase64 (file) {
+export function getBase64 (file) {
   const validFileTypes = ['image/jpeg', 'image/png', 'image/jpg']
   const valid = validFileTypes.find(type => type === file.type);
   if (!valid) {
@@ -43,7 +43,7 @@ export function Makelisting (props) {
           address,
           price,
           thumbnail,
-          metadata: { type, nbath, nbed, amenities }
+          metadata: { type, nbath, nbed, amenities, propertyImages: [] }
         },
         { headers: { Authorization: `Bearer ${props.token}` } }
       )
