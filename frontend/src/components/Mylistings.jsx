@@ -37,7 +37,7 @@ export function Mylisting (props) {
         <Stack direction="row" spacing={2} divider={<Divider orientation="vertical" flexItem />} sx={{ mb: 3 }}>
           {listings.map((listing) => {
             return (
-              <Box key={listing}>
+              <Box key={listing.id}>
                 <Container maxWidth="sm">
                 <Stack spacing={2}>
                   <Typography variant="h4">

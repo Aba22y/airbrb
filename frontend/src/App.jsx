@@ -9,14 +9,7 @@ import { Mylisting } from './components/Mylistings';
 import { Makelisting } from './components/Makelisting';
 import { Editlisting } from './components/Editlisting';
 import { Publish } from './components/Publish';
-
-function LandingPage () {
-  return (
-    <h1>
-      Hello World!
-    </h1>
-  )
-}
+import { Landingpage } from './components/Landingpage';
 
 function App () {
   // ensure state awareness of token
@@ -31,7 +24,7 @@ function App () {
       <Router>
       <Banner token={token} setToken={setToken}/>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<Landingpage token={token} setToken={setToken} setError={setError}/>} />
           <Route path="/login" element={<Login token={token} setToken={setToken} setError={setError}/>} />
           <Route path="/register" element={<Register token={token} setToken={setToken} setError={setError} />} />
           <Route path="/dashboard" element={<Dashboard token={token} setToken={setToken}/>} />
