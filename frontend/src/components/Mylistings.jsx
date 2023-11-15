@@ -13,15 +13,16 @@ export function Mylisting (props) {
       try {
         const response = await axios.get('http://localhost:5005/listings');
         const allListings = response.data.listings;
-        const myListingsPromise = allListings.map(async (listing) => {
-          if (listing.owner === localStorage.getItem('email')) {
-            const details = await axios.get(`http://localhost:5005/listings/${listing.id}`)
-            const listingData = details.data.listing
-            listingData.id = listing.id
-            return listingData
-          }
-        })
+        const myListingsPromise = allListings
+          .filter(listing => listing.owner === localStorage.getItem('email'))
+          .map(async (listing) => {
+            const details = await axios.get(`http://localhost:5005/listings/${listing.id}`);
+            const listingData = details.data.listing;
+            listingData.id = listing.id;
+            return listingData;
+          });
         const myListings = await Promise.all(myListingsPromise)
+        console.log(myListings)
         setListings(myListings)
       } catch (error) {
         props.setError('Error fetching listings')

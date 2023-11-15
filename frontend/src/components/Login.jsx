@@ -18,7 +18,7 @@ export function Login (props) {
       console.log('Status Code:', success);
       props.setToken(data.token);
       localStorage.setItem('email', email)
-      navigate('/dashboard')
+      navigate('/')
       return res
     } catch (error) {
       props.setError(error.response.data.error)

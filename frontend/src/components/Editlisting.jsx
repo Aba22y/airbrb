@@ -22,7 +22,6 @@ export function Editlisting (props) {
     const fetchListingData = async () => {
       try {
         const listingData = await axios.get(`http://localhost:5005/listings/${id}`)
-        console.log(listingData.data.listing)
         setListingDetails(listingData.data.listing)
       } catch (error) {
         props.setError(error.response.data.error)

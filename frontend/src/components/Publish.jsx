@@ -4,8 +4,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Chip, Button, Typography } from '@mui/material';
+import { format } from 'date-fns'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { format } from 'date-fns';
 
 export function Publish (props) {
   const { id } = useParams();
@@ -87,6 +87,7 @@ export function Publish (props) {
           variant="outlined"
           sx={{ m: 1 }}
           onClick={() => {
+            // where the date is added
             const updatedArray = [...availability, { start: sdate, end: edate }]
             setAvailability(updatedArray)
           }}>
