@@ -64,6 +64,7 @@ export function Mylisting (props) {
                 </Stack>
                 <Button variant="outlined" component={Link} to={`/editlisting/${listing.id}`}>Edit</Button>
                 <Button variant="outlined" component={Link} to={`/publish/${listing.id}`}>Post</Button>
+                <Button variant="outlined" component={Link} to={`/bookinginfo/${listing.id}`}>Bookings</Button>
                 </Container>
               </Box>
             )

@@ -10,6 +10,7 @@ import { Editlisting } from './components/Editlisting';
 import { Publish } from './components/Publish';
 import { Landingpage } from './components/Landingpage';
 import { GeneralListing } from './components/Generallisting';
+import { Bookinginfo } from './components/Bookinginfo';
 
 function App () {
   // ensure state awareness of token
@@ -32,6 +33,7 @@ function App () {
           <Route path="/editlisting/:id" element={<Editlisting token={token} setToken={setToken} setError={setError}/>} />
           <Route path="/publish/:id" element={<Publish token={token} setToken={setToken} setError={setError}/>} />
           <Route path="/generallisting/:id/:pstay" element={<GeneralListing token={token} setToken={setToken} setError={setError}/>}/>
+          <Route path="/bookinginfo/:id" element={<Bookinginfo token={token} setToken={setToken} setError={setError}/>}/>
         </Routes>
       </Router>
     </>

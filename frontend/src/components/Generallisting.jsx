@@ -73,7 +73,7 @@ export function GeneralListing (props) {
           const date1 = parse(element.start, 'dd LLLL y', new Date())
           const date2 = parse(element.end, 'dd LLLL y', new Date())
           return (
-            <Typography key={index}>{`Staying ${index + 1}: ${element.start} to ${element.end} ${getDays(date1, date2) * parseInt(element.price, 10)}`}</Typography>
+            <Typography key={index}>{`Staying ${index + 1}: ${element.start} to ${element.end} $${getDays(date1, date2) * parseInt(element.price, 10)}`}</Typography>
           )
         })
         : <Typography>$ {`${listing.price}`} per night</Typography>}
@@ -95,6 +95,21 @@ export function GeneralListing (props) {
           </ImageListItem>
         ))}
       </ImageList>
+
+      <Container>
+        <div style={{ height: '100%', maxWidth: '100%', overflowY: 'auto', mb: 3 }}>
+          <Stack direction="row" spacing={2} divider={<Divider flexItem />}>
+            {listing.reviews.map((review, index) => {
+              return (
+                <div key={index}>
+                  <Rating name="read-only" value={review.rating} readOnly />
+                  <Typography key={2}>{`${review.comment}`}</Typography>
+                </div>
+              )
+            })}
+          </Stack>
+        </div>
+      </Container>
 
       <List
           sx={{
@@ -121,22 +136,11 @@ export function GeneralListing (props) {
             })}
       </List>
 
-      <Container>
-        <div style={{ height: '100%', maxWidth: '100%', overflowY: 'auto', mb: 3 }}>
-          <Stack direction="row" spacing={2} divider={<Divider flexItem />}>
-            {listing.reviews.map((review) => {
-              return (
-                <Typography key={2}>{`${review}`}</Typography>
-              )
-            })}
-          </Stack>
-        </div>
-      </Container>
-
       {props.token &&
       <div>
         <Button variant="contained" onClick={() => setOpenBooking(true)}>Make Booking</Button>
-      </div>}
+      </div>
+      }
 
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -162,14 +166,14 @@ export function GeneralListing (props) {
             try {
               const review = { rating, comment }
               await axios.put(`http://localhost:5005/listings/${id}/review/${idToReview}`,
-                review,
+                { review },
                 { headers: { Authorization: `Bearer ${props.token}` } }
               )
               setOpenReview(false)
             } catch (error) {
               props.setError(error.response.data.error)
             }
-          }} />
+          }}> Submit Review </Button>
         </Paper>
       </Backdrop>
 
