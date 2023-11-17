@@ -66,7 +66,7 @@ export function Editlisting (props) {
           Listing Edit
         </Typography>
 
-        <Typography variant="body1" sx={ { display: 'flex', alignItems: 'center' } } >
+        <Typography component={'span'} variant="body1" sx={ { display: 'flex', alignItems: 'center' } } >
           Title: {listingDetails.title}
           <Divider orientation="vertical" sx={ { m: 4 } } flexItem />
           <TextField
@@ -77,7 +77,7 @@ export function Editlisting (props) {
           />
         </Typography>
 
-        <Typography variant="body1" sx={ { display: 'flex', alignItems: 'center' } }>
+        <Typography component={'span'} variant="body1" sx={ { display: 'flex', alignItems: 'center' } }>
           Address: {listingDetails.address}
           <Divider orientation="vertical" sx={ { m: 4 } } flexItem />
           <TextField
@@ -88,7 +88,7 @@ export function Editlisting (props) {
           />
         </Typography>
 
-        <Typography variant="body1">
+        <Typography component={'span'} variant="body1">
           Current image:
           <Container>
             <img src={listingDetails.thumbnail ? listingDetails.thumbnail : 'https://static.thenounproject.com/png/340719-200.png'} style={{ maxWidth: '20%', maxHeight: '20%' }} />
@@ -104,7 +104,7 @@ export function Editlisting (props) {
           />
         </Typography>
 
-        <Typography variant="body1" sx={ { display: 'flex', alignItems: 'center' } }>
+        <Typography component={'span'} variant="body1" sx={ { display: 'flex', alignItems: 'center' } }>
           Price: ${listingDetails.price}
           <Divider orientation="vertical" sx={ { m: 4 } } flexItem />
           <TextField
@@ -115,7 +115,7 @@ export function Editlisting (props) {
           />
         </Typography>
 
-        <Typography variant="body1">
+        <Typography component={'span'} variant="body1">
           Type: {listingDetails.metadata.type}
           <FormControl fullWidth margin='normal'>
           <InputLabel id="demo-simple-select-label">Type</InputLabel>
@@ -134,7 +134,7 @@ export function Editlisting (props) {
         </FormControl>
         </Typography>
 
-        <Typography variant="body1" sx={ { display: 'flex', alignItems: 'center' } }>
+        <Typography component={'span'} variant="body1" sx={ { display: 'flex', alignItems: 'center' } }>
           Number of beds: {listingDetails.metadata.nbed}
           <TextField
           label="#Beds"
@@ -152,7 +152,7 @@ export function Editlisting (props) {
           />
         </Typography>
 
-        <Typography variant="body1" sx={ { display: 'flex', alignItems: 'center' } }>
+        <Typography component={'span'} variant="body1" sx={ { display: 'flex', alignItems: 'center' } }>
           Ammenities:{listingDetails.metadata.amenities}
           <Divider orientation="vertical" sx={ { m: 4 } } flexItem />
           <TextField
@@ -163,7 +163,7 @@ export function Editlisting (props) {
           />
         </Typography>
 
-        <Typography variant="body1">
+        <Typography component={'span'} variant="body1">
           List of Images:
           <input
           type='file'

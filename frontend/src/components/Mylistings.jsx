@@ -7,7 +7,8 @@ import Image from 'material-ui-image'
 export function Mylisting (props) {
   const [listings, setListings] = React.useState([]);
 
-  // no dependancy list, means this runs during the first render
+  // once the component mounts, get all the user's listings
+  // and store the details for each in the listings array
   React.useEffect(() => {
     const fetchData = async () => {
       try {
@@ -18,11 +19,11 @@ export function Mylisting (props) {
           .map(async (listing) => {
             const details = await axios.get(`http://localhost:5005/listings/${listing.id}`);
             const listingData = details.data.listing;
+            // add the id
             listingData.id = listing.id;
             return listingData;
           });
         const myListings = await Promise.all(myListingsPromise)
-        console.log(myListings)
         setListings(myListings)
       } catch (error) {
         props.setError('Error fetching listings')
@@ -31,6 +32,20 @@ export function Mylisting (props) {
 
     fetchData();
   }, [])
+
+  // delete a listing and update the listings array
+  const deleteMyListing = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5005/listings/${id}`,
+        { headers: { Authorization: `Bearer ${props.token}` } })
+      const newList = listings.filter((listing) => {
+        return listing.id !== id
+      })
+      setListings(newList)
+    } catch (error) {
+      props.setError('Could not delete listing')
+    }
+  }
 
   return (
     <div style={{ height: '75vh', maxWidth: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -62,6 +77,7 @@ export function Mylisting (props) {
                     $ {listing.price}
                   </Typography>
                 </Stack>
+                <Button variant="outlined" onClick={() => deleteMyListing(listing.id)}>Delete</Button>
                 <Button variant="outlined" component={Link} to={`/editlisting/${listing.id}`}>Edit</Button>
                 <Button variant="outlined" component={Link} to={`/publish/${listing.id}`}>Post</Button>
                 <Button variant="outlined" component={Link} to={`/bookinginfo/${listing.id}`}>Bookings</Button>

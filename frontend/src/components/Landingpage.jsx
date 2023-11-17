@@ -113,15 +113,15 @@ export function Landingpage (props) {
             event.preventDefault()
             setOpen(false)
           }}>
-            <Typography>Number of Bedrooms</Typography>
+            <Typography component={'span'}>Number of Bedrooms</Typography>
             <Stack direction='row'>
               <TextField id="min-bed" label="Min" variant="outlined" onChange={(event) => setBedMin(event.target.value)}/>
               <TextField id="max-bed" label="Max" variant="outlined" onChange={(event) => setBedMax(event.target.value)}/>
             </Stack>
-            <Typography>Availability</Typography>
+            <Typography component={'span'}>Availability</Typography>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Stack direction='row'>
-                  <Typography>
+                  <Typography component={'span'}>
                     From:
                     <DatePicker id="start-date" value={null} onChange={(value) => setSDate(value)} />
                     To:

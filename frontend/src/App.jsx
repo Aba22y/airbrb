@@ -1,8 +1,9 @@
 import React from 'react';
-import { Login } from './components/Login'
-import { Register } from './components/Register'
 import { Alert } from '@mui/material';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import { Login } from './components/Login';
+import { Register } from './components/Register';
 import { Banner } from './components/Banner';
 import { Mylisting } from './components/Mylistings';
 import { Makelisting } from './components/Makelisting';

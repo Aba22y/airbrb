@@ -11,6 +11,7 @@ export function Bookinginfo (props) {
   const [totalBookedDays, setBookedDays] = React.useState(0)
   const [profit, setProfit] = React.useState(0)
 
+  // Once mounted, this obtains the respective listing and its bookings
   React.useEffect(() => {
     const fetchListingData = async () => {
       try {
@@ -31,6 +32,7 @@ export function Bookinginfo (props) {
     fetchListingData()
   }, [])
 
+  // This function obtains the amount of days within a date range that occur this year
   const getDaysThisYear = (date1, date2) => {
     const start = parse(date1, 'dd LLLL y', new Date())
     const end = parse(date2, 'dd LLLL y', new Date())
@@ -48,6 +50,8 @@ export function Bookinginfo (props) {
     return parseInt(days, 10)
   }
 
+  // after every render (mainly accepting or denying a booking),
+  // updates total days and profit this year
   React.useEffect(() => {
     let totalMoney = 0
     let totalDays = 0
@@ -61,6 +65,8 @@ export function Bookinginfo (props) {
     setBookedDays(totalDays)
   })
 
+  // this function returns a string which displays the time
+  // a listing has been 'online' in terms of days and hours
   const getOnlineTime = (date) => {
     const listingDate = new Date(date);
     const currentDate = new Date();
@@ -72,6 +78,9 @@ export function Bookinginfo (props) {
     return (`Days: ${days}, Hours: ${hours}`);
   }
 
+  // given a bookingId and a status string  (accepted || declined)
+  // this function will accept or deny the respective booking and update
+  // the booking array to cause a render which reflects the change
   const decideBookingStatus = async (bookingId, status) => {
     try {
       await axios.put(`http://localhost:5005/bookings/${status}/${bookingId}`,
@@ -92,8 +101,10 @@ export function Bookinginfo (props) {
   return (
     <Container maxWidth="sm">
       <Typography variant='h3'>{listing.title}</Typography>
+      {/* get the time since publication */}
       <Typography variant='h5'>Time since published - {getOnlineTime(listing.postedOn)}</Typography>
       <List>
+        {/* for each booking, if the status is pending give the option to accept/deny */}
         {bookings.map((element, index) => {
           return (
           <ListItem key={index}>
@@ -118,6 +129,7 @@ export function Bookinginfo (props) {
           )
         })}
       </List>
+      {/* calculate the profit and days accumulated by this years bookings */}
       <Typography variant='h5'>Profit: ${profit}, Booked for {totalBookedDays} days</Typography>
     </Container>
   )

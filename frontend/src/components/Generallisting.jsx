@@ -182,10 +182,10 @@ export function GeneralListing (props) {
         open={openBooking}
       >
         <Paper>
-          <Typography variant='h4'>New booking</Typography>
+          <Typography component={'span'} variant='h4'>New booking</Typography>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Stack direction='row'>
-              <Typography variant='body1'>
+              <Typography component={'span'} variant='body1'>
                 From:
                 <DatePicker id="start-date" value={null} onChange={(value) => setBookStart(new Date(value))} />
                 To:
