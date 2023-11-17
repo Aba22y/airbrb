@@ -20,12 +20,13 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import React, { useState } from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { intervalToDuration, parse, format } from 'date-fns';
 import axios from 'axios';
 
 export function GeneralListing (props) {
   let { id, pstay } = useParams();
+  const navigate = useNavigate()
   const [bookStart, setBookStart] = useState(null);
   const [bookEnd, setBookEnd] = useState(null);
   const [listing, setListingDetails] = React.useState({ metadata: { propertyImages: [], amenities: [] }, availability: [], reviews: [] });
@@ -89,7 +90,7 @@ export function GeneralListing (props) {
           const date1 = parse(element.start, 'dd LLLL y', new Date());
           const date2 = parse(element.end, 'dd LLLL y', new Date());
           return (
-            <Typography key={index}>{`Staying ${index + 1}: ${element.start} to ${element.end} $${getDays(date1, date2) * parseInt(element.price, 10)}`}</Typography>
+            <Typography key={index}>{`Staying ${index + 1}: ${element.start} to ${element.end} $${getDays(date1, date2) * parseInt(listing.price, 10)}`}</Typography>
           );
         })
         : <Typography>$ {`${listing.price}`} per night</Typography>}
@@ -191,6 +192,7 @@ export function GeneralListing (props) {
                 { headers: { Authorization: `Bearer ${props.token}` } }
               );
               setOpenReview(false);
+              navigate('/')
             } catch (error) {
               props.setError(error.response.data.error);
             }
@@ -225,6 +227,7 @@ export function GeneralListing (props) {
                 { dateRange, totalPrice },
                 { headers: { Authorization: `Bearer ${props.token}` } });
               setBookSuccess(true);
+              navigate('/')
             } catch (error) {
               props.setError(error.response.data.error);
             }
