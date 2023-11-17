@@ -4,10 +4,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 export function Register (props) {
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
-  const [cpassword, setCPassword] = React.useState('')
-  const [name, setName] = React.useState('')
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [cpassword, setCPassword] = React.useState('');
+  const [name, setName] = React.useState('');
   const navigate = useNavigate();
 
   // ensure that passwords match and email is valid
@@ -17,24 +17,24 @@ export function Register (props) {
       const emailformat = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (cpassword !== password) {
         props.setError('Password does not match');
-        return
+        return;
       } else if (!emailformat.test(email)) {
         props.setError('Please enter a valid email');
-        return
+        return;
       }
-      await axios.post('http://localhost:5005/user/auth/register', { email, password, name })
+      await axios.post('http://localhost:5005/user/auth/register', { email, password, name });
       console.log('Account created');
-      navigate('/login')
+      navigate('/login');
     } catch (error) {
-      props.setError(error.response.data.error)
+      props.setError(error.response.data.error);
     }
   }
 
   return (
     <Container maxWidth="sm">
         <form onSubmit={ async (event) => {
-          event.preventDefault()
-          registerUser()
+          event.preventDefault();
+          registerUser();
         }}>
             <Typography variant="h4" gutterBottom>
                 Register
@@ -73,5 +73,5 @@ export function Register (props) {
             <Button variant="contained" type="submit" sx={{ m: 1 }}>Create</Button>
         </form>
     </Container>
-  )
+  );
 }

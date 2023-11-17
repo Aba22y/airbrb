@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { Button, Stack, Box, Container, Typography, Rating, Divider } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { getAvgRating } from './helpers';
 import axios from 'axios';
-import Image from 'material-ui-image'
+import Image from 'material-ui-image';
 
 export function Mylisting (props) {
   const [listings, setListings] = React.useState([]);
@@ -23,10 +24,10 @@ export function Mylisting (props) {
             listingData.id = listing.id;
             return listingData;
           });
-        const myListings = await Promise.all(myListingsPromise)
-        setListings(myListings)
+        const myListings = await Promise.all(myListingsPromise);
+        setListings(myListings);
       } catch (error) {
-        props.setError('Error fetching listings')
+        props.setError('Error fetching listings');
       }
     };
 
@@ -37,13 +38,13 @@ export function Mylisting (props) {
   const deleteMyListing = async (id) => {
     try {
       await axios.delete(`http://localhost:5005/listings/${id}`,
-        { headers: { Authorization: `Bearer ${props.token}` } })
+        { headers: { Authorization: `Bearer ${props.token}` } });
       const newList = listings.filter((listing) => {
-        return listing.id !== id
+        return listing.id !== id;
       })
-      setListings(newList)
+      setListings(newList);
     } catch (error) {
-      props.setError('Could not delete listing')
+      props.setError('Could not delete listing');
     }
   }
 
@@ -69,9 +70,9 @@ export function Mylisting (props) {
                   Bathrooms: {listing.metadata.nbath}
                   </Typography>
                   <Image src={listing.thumbnail ? listing.thumbnail : 'https://static.thenounproject.com/png/340719-200.png'} />
-                  <Rating name="read-only" value={0} readOnly />
+                  <Rating name="read-only" value={getAvgRating(listing.reviews)} readOnly />
                   <Typography variant="body1">
-                    0 Reviews
+                    {listing.reviews.length} Reviews
                   </Typography>
                   <Typography variant="body1">
                     $ {listing.price}
@@ -89,5 +90,5 @@ export function Mylisting (props) {
       </div>
       <Button variant="contained" component={Link} to="/makelisting">Make listing</Button>
     </div>
-  )
+  );
 }

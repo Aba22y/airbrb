@@ -16,7 +16,7 @@ export function Banner (props) {
                 ? (<>
                     <Button color="inherit" component={Link} to="/mylistings">My Listings</Button>
                     <Button color="inherit" onClick={() => {
-                      props.setToken(null)
+                      props.setToken(null);
                       localStorage.removeItem('email');
                       navigate('/login');
                     }}>Logout</Button>

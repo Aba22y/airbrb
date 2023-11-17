@@ -1,50 +1,52 @@
 import axios from 'axios';
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getBase64 } from './Makelisting';
+import { getBase64, isValidAddress } from './helpers';
 import { Button, Container, Typography, TextField, Divider, FormControl, Select, InputLabel, MenuItem } from '@mui/material';
 
 export function Editlisting (props) {
   const { id } = useParams();
-  const [listingDetails, setListingDetails] = React.useState({ metadata: {} })
-  const [title, setTitle] = React.useState('')
-  const [address, setAddress] = React.useState('')
-  const [thumbnail, setThumbnail] = React.useState(null)
-  const [price, setPrice] = React.useState('')
-  const [type, setType] = React.useState('')
-  const [nbath, setNbath] = React.useState('')
-  const [nbed, setNbed] = React.useState('')
-  const [amenities, setAmenities] = React.useState([])
-  const [propertyImages, setPImages] = React.useState([])
-  const navigate = useNavigate()
+  const [listingDetails, setListingDetails] = React.useState({ metadata: {} });
+  const [title, setTitle] = React.useState('');
+  const [address, setAddress] = React.useState('');
+  const [thumbnail, setThumbnail] = React.useState(null);
+  const [price, setPrice] = React.useState('');
+  const [type, setType] = React.useState('');
+  const [nbath, setNbath] = React.useState('');
+  const [nbed, setNbed] = React.useState('');
+  const [amenities, setAmenities] = React.useState([]);
+  const [propertyImages, setPImages] = React.useState([]);
+  const navigate = useNavigate();
 
+  // get the current listing details
   React.useEffect(() => {
     const fetchListingData = async () => {
       try {
-        const listingData = await axios.get(`http://localhost:5005/listings/${id}`)
-        setListingDetails(listingData.data.listing)
+        const listingData = await axios.get(`http://localhost:5005/listings/${id}`);
+        setListingDetails(listingData.data.listing);
       } catch (error) {
-        props.setError(error.response.data.error)
+        props.setError(error.response.data.error);
       }
     }
-    fetchListingData()
+    fetchListingData();
   }, [])
 
+  // upon saving this function change details
   const updateDetails = async () => {
     try {
-      const metadata = listingDetails.metadata
+      const metadata = listingDetails.metadata;
       // make sure field is not empty and is different
       for (const [key, data] of [['type', type], ['nbath', nbath], ['nbed', nbed]]) {
         if (data !== '' && metadata[key] !== data) {
-          metadata[key] = data
+          metadata[key] = data;
         }
       }
-      // at the moment a single change to amenities or property images changes the entire thing
+      // change amenities
       if (amenities.length !== 0) {
-        metadata.amenities = amenities
+        metadata.amenities = amenities;
       }
       if (propertyImages.length !== 0) {
-        metadata.propertyImages = propertyImages
+        metadata.propertyImages = propertyImages;
       }
       await axios.put(`http://localhost:5005/listings/${id}`, {
         title,
@@ -53,10 +55,10 @@ export function Editlisting (props) {
         price,
         metadata
       },
-      { headers: { Authorization: `Bearer ${props.token}` } })
-      navigate('/mylistings')
+      { headers: { Authorization: `Bearer ${props.token}` } });
+      navigate('/mylistings');
     } catch (error) {
-      props.setError(error.response.data.error)
+      props.setError(error.response.data.error);
     }
   }
 
@@ -81,10 +83,16 @@ export function Editlisting (props) {
           Address: {listingDetails.address}
           <Divider orientation="vertical" sx={ { m: 4 } } flexItem />
           <TextField
-          label="New address"
+          label="Street, City, State, Postcode, Country"
           variant="outlined"
           margin="normal"
-          onChange={(event) => setAddress(event.target.value)}
+          onChange={(event) => {
+            if (isValidAddress(event.target.value)) {
+              setAddress(event.target.value);
+            } else {
+              setAddress('');
+            }
+          }}
           />
         </Typography>
 
@@ -98,8 +106,8 @@ export function Editlisting (props) {
           variant="outlined"
           margin="normal"
           onChange={async (event) => {
-            const image = await getBase64(event.target.files[0])
-            setThumbnail(image)
+            const image = await getBase64(event.target.files[0]);
+            setThumbnail(image);
           }}
           />
         </Typography>
@@ -121,7 +129,6 @@ export function Editlisting (props) {
           <InputLabel id="demo-simple-select-label">Type</InputLabel>
           <Select
             labelId="demo-simple-select-label"
-            id="demo-simple-select"
             value={type}
             label="Type"
             onChange={(event) => setType(event.target.value)}
@@ -156,10 +163,10 @@ export function Editlisting (props) {
           Ammenities:{listingDetails.metadata.amenities}
           <Divider orientation="vertical" sx={ { m: 4 } } flexItem />
           <TextField
-          label="New Ammenities"
+          label="Amenities (seperate each item with '-')"
           variant="outlined"
           margin="normal"
-          onChange={(event) => setAmenities(event.target.value)}
+          onChange={(event) => setAmenities((event.target.value).split('-'))}
           />
         </Typography>
 
@@ -171,11 +178,11 @@ export function Editlisting (props) {
           style={ { marginLeft: '5%' } }
           onChange={async (event) => {
             const files = Array.from(event.target.files);
-            const newImageForm = []
+            const newImageForm = [];
             for (const picture of files) {
-              newImageForm.push(getBase64(picture))
+              newImageForm.push(getBase64(picture));
             }
-            setPImages(newImageForm)
+            setPImages(newImageForm);
           }} />
         </Typography>
 

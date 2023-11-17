@@ -5,30 +5,30 @@ import { FuncButton } from './FuncButton';
 import axios from 'axios';
 
 export function Login (props) {
-  const [email, setEmail] = React.useState('')
-  const [password, setPassword] = React.useState('')
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const navigate = useNavigate();
 
   // create token, store email, and navigate to the landing page
   const signIn = async () => {
     try {
-      const res = await axios.post('http://localhost:5005/user/auth/login', { email, password })
-      const data = await res.data
+      const res = await axios.post('http://localhost:5005/user/auth/login', { email, password });
+      const data = await res.data;
 
       console.log('Logged in');
       props.setToken(data.token);
-      localStorage.setItem('email', email)
-      navigate('/')
+      localStorage.setItem('email', email);
+      navigate('/');
     } catch (error) {
-      props.setError(error.response.data.error)
+      props.setError(error.response.data.error);
     }
   }
 
   return (
     <Container maxWidth="sm">
         <form onSubmit={ async (event) => {
-          event.preventDefault()
-          signIn()
+          event.preventDefault();
+          signIn();
         }}>
             <Typography variant="h4" gutterBottom>
                 Login

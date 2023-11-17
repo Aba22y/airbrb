@@ -1,0 +1,1 @@
+I tried to test componenets to ensure that the props passed into them correctly reflected a change within the componenet. Additionally, I wanted to ensure that the component acted as a correct wrapper for my MUI component

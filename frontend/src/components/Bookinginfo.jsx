@@ -6,36 +6,36 @@ import { parse, intervalToDuration, isThisYear, endOfYear } from 'date-fns';
 
 export function Bookinginfo (props) {
   const { id } = useParams();
-  const [listing, setListing] = React.useState({})
-  const [bookings, setBookings] = React.useState([])
-  const [totalBookedDays, setBookedDays] = React.useState(0)
-  const [profit, setProfit] = React.useState(0)
+  const [listing, setListing] = React.useState({});
+  const [bookings, setBookings] = React.useState([]);
+  const [totalBookedDays, setBookedDays] = React.useState(0);
+  const [profit, setProfit] = React.useState(0);
 
   // Once mounted, this obtains the respective listing and its bookings
   React.useEffect(() => {
     const fetchListingData = async () => {
       try {
-        const listingData = await axios.get(`http://localhost:5005/listings/${id}`)
+        const listingData = await axios.get(`http://localhost:5005/listings/${id}`);
         if (props.token) {
-          const allBookingsRes = await axios.get('http://localhost:5005/bookings', { headers: { Authorization: `Bearer ${props.token}` } })
-          const allBookings = allBookingsRes.data.bookings
+          const allBookingsRes = await axios.get('http://localhost:5005/bookings', { headers: { Authorization: `Bearer ${props.token}` } });
+          const allBookings = allBookingsRes.data.bookings;
           const userBookings = allBookings.filter((element) => {
-            return element.listingId === id
-          })
-          setBookings(userBookings)
+            return element.listingId === id;
+          });
+          setBookings(userBookings);
         }
-        setListing(listingData.data.listing)
+        setListing(listingData.data.listing);
       } catch (error) {
-        props.setError(error.response.data.error)
+        props.setError(error.response.data.error);
       }
     }
-    fetchListingData()
+    fetchListingData();
   }, [])
 
   // This function obtains the amount of days within a date range that occur this year
   const getDaysThisYear = (date1, date2) => {
-    const start = parse(date1, 'dd LLLL y', new Date())
-    const end = parse(date2, 'dd LLLL y', new Date())
+    const start = parse(date1, 'dd LLLL y', new Date());
+    const end = parse(date2, 'dd LLLL y', new Date());
 
     if (!isThisYear(start)) {
       return 0;
@@ -46,23 +46,23 @@ export function Bookinginfo (props) {
     const { days } = intervalToDuration({
       start,
       end
-    })
-    return parseInt(days, 10)
+    });
+    return parseInt(days, 10);
   }
 
   // after every render (mainly accepting or denying a booking),
   // updates total days and profit this year
   React.useEffect(() => {
-    let totalMoney = 0
-    let totalDays = 0
+    let totalMoney = 0;
+    let totalDays = 0;
     bookings.forEach((booking) => {
       if (booking.status === 'accepted') {
-        totalDays += getDaysThisYear(booking.dateRange.start, booking.dateRange.end)
-        totalMoney += getDaysThisYear(booking.dateRange.start, booking.dateRange.end) * parseInt(listing.price, 10)
+        totalDays += getDaysThisYear(booking.dateRange.start, booking.dateRange.end);
+        totalMoney += getDaysThisYear(booking.dateRange.start, booking.dateRange.end) * parseInt(listing.price, 10);
       }
-    })
-    setProfit(totalMoney)
-    setBookedDays(totalDays)
+    });
+    setProfit(totalMoney);
+    setBookedDays(totalDays);
   })
 
   // this function returns a string which displays the time
@@ -88,13 +88,13 @@ export function Bookinginfo (props) {
         { headers: { Authorization: `Bearer ${props.token}` } });
       const updatedBookings = bookings.map((booking) => {
         if (booking.id === bookingId) {
-          booking.status = status === 'accept' ? 'accepted' : 'declined'
+          booking.status = status === 'accept' ? 'accepted' : 'declined';
         }
-        return booking
+        return booking;
       })
-      setBookings(updatedBookings)
+      setBookings(updatedBookings);
     } catch (error) {
-      props.setError(error.response.data.error)
+      props.setError(error.response.data.error);
     }
   }
 
@@ -126,7 +126,7 @@ export function Bookinginfo (props) {
               </div>
             }
           </ListItem>
-          )
+          );
         })}
       </List>
       {/* calculate the profit and days accumulated by this years bookings */}

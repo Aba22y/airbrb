@@ -9,44 +9,49 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 export function Publish (props) {
   const { id } = useParams();
-  const navigate = useNavigate()
-  const [availability, setAvailability] = React.useState([])
-  const [publicStatus, setPublishStatus] = React.useState(null)
+  const navigate = useNavigate();
+  const [availability, setAvailability] = React.useState([]);
+  const [publicStatus, setPublishStatus] = React.useState(null);
   const [sdate, setSdate] = React.useState(null);
   const [edate, setEdate] = React.useState(null);
+
+  // get the respective listing and its publication status
   React.useEffect(() => {
     const fetchAvailabilityData = async () => {
       try {
-        const listingData = await axios.get(`http://localhost:5005/listings/${id}`)
-        setAvailability(listingData.data.listing.availability)
-        setPublishStatus(listingData.data.listing.published)
+        const listingData = await axios.get(`http://localhost:5005/listings/${id}`);
+        setAvailability(listingData.data.listing.availability);
+        setPublishStatus(listingData.data.listing.published);
       } catch (error) {
-        props.setError(error.response.data.error)
+        props.setError(error.response.data.error);
       }
     }
-    fetchAvailabilityData()
+    fetchAvailabilityData();
   }, [])
 
+  // unpublish a listing
   async function unpublish () {
     try {
-      await axios.put(`http://localhost:5005/listings/unpublish/${id}`, {}, { headers: { Authorization: `Bearer ${props.token}` } })
+      await axios.put(`http://localhost:5005/listings/unpublish/${id}`, {}, { headers: { Authorization: `Bearer ${props.token}` } });
     } catch (error) {
-      props.setError(error.response.data.error)
+      props.setError(error.response.data.error);
     }
-    navigate('/mylistings')
+    navigate('/mylistings');
   }
 
+  // publish a listing
   async function publish () {
     try {
       await axios.put(`http://localhost:5005/listings/publish/${id}`,
         { availability },
-        { headers: { Authorization: `Bearer ${props.token}` } })
+        { headers: { Authorization: `Bearer ${props.token}` } });
     } catch (error) {
-      props.setError(error.response.data.error)
+      props.setError(error.response.data.error);
     }
-    navigate('/mylistings')
+    navigate('/mylistings');
   }
 
+  // delete a date range given its index
   const handleDelete = (index) => {
     const updatedArray = availability.filter((element, elementIndex) => elementIndex !== index);
     setAvailability(updatedArray);
@@ -64,23 +69,21 @@ export function Publish (props) {
               variant="outlined"
               onDelete={() => handleDelete(index)}
             />
-          )
+          );
         })}
          <LocalizationProvider dateAdapter={AdapterDateFns}>
           <Container label="Start Date" sx={{ m: 1 }}>
             <DatePicker value={null} onChange={(value) => {
-              const date = new Date(value)
-              const formatted = format(date, 'dd LLLL y')
-              console.log(formatted)
-              setSdate(formatted)
+              const date = new Date(value);
+              const formatted = format(date, 'dd LLLL y');
+              setSdate(formatted);
             }} />
           </Container>
           <Container label="End Date" sx={{ m: 1 }}>
             <DatePicker value={null} onChange={(value) => {
-              const date = new Date(value)
-              const formatted = format(date, 'dd LLLL y')
-              console.log(formatted)
-              setEdate(formatted)
+              const date = new Date(value);
+              const formatted = format(date, 'dd LLLL y');
+              setEdate(formatted);
             }} />
           </Container>
           <Button
@@ -88,13 +91,14 @@ export function Publish (props) {
           sx={{ m: 1 }}
           onClick={() => {
             // where the date is added
-            const updatedArray = [...availability, { start: sdate, end: edate }]
-            setAvailability(updatedArray)
+            const updatedArray = [...availability, { start: sdate, end: edate }];
+            setAvailability(updatedArray);
           }}>
             Add
           </Button>
          </LocalizationProvider>
       </Container>
+      {/* render buttons based on publish status */}
       {publicStatus
         ? <Button variant='contained' onClick={() => unpublish()}>Unpublish</Button>
         : <Button variant='contained' disabled>Unpublish</Button>
@@ -104,5 +108,5 @@ export function Publish (props) {
         : <Button variant='contained' disabled>Publish</Button>
       }
     </Container>
-  )
+  );
 }
