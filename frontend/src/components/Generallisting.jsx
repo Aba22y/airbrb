@@ -23,6 +23,7 @@ import ImageListItem from '@mui/material/ImageListItem';
 import { useNavigate, useParams } from 'react-router-dom';
 import { intervalToDuration, parse, format } from 'date-fns';
 import axios from 'axios';
+import { ListingReview } from './ListingReview';
 
 export function GeneralListing (props) {
   let { id, pstay } = useParams();
@@ -85,7 +86,7 @@ export function GeneralListing (props) {
       <Typography variant='body1'>Amenities: {listing.metadata.amenities.toString()}</Typography>
       <Typography variant='body1'>Number of Beds: {listing.metadata.nbed}</Typography>
       <Typography variant='body1'>Number of Bathrooms: {listing.metadata.nbath}</Typography>
-      <Typography variant='body1'>Price: {pstay
+      <Typography component={'span'} variant='body1'>Price: {pstay
         ? listing.availability.map((element, index) => {
           const date1 = parse(element.start, 'dd LLLL y', new Date());
           const date2 = parse(element.end, 'dd LLLL y', new Date());
@@ -120,10 +121,7 @@ export function GeneralListing (props) {
           <Stack direction="row" spacing={2} divider={<Divider flexItem />}>
             {listing.reviews.map((review, index) => {
               return (
-                <div key={index}>
-                  <Rating name="read-only" value={review.rating} readOnly />
-                  <Typography key={2}>{`${review.comment}`}</Typography>
-                </div>
+                <ListingReview key={index} rating={review.rating} comment={review.comment}/>
               );
             })}
           </Stack>
@@ -206,7 +204,7 @@ export function GeneralListing (props) {
         open={openBooking}
       >
         <Paper>
-          <Typography component={'span'} variant='h4'>New booking</Typography>
+          <Typography variant='h4'>New booking</Typography>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Stack direction='row'>
               <Typography component={'span'} variant='body1'>

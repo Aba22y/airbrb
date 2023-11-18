@@ -8,7 +8,7 @@ export function Makelisting (props) {
   const [title, setTitle] = React.useState(undefined);
   const [address, setAddress] = React.useState(undefined);
   const [price, setPrice] = React.useState(undefined);
-  const [thumbnail, setThumbnail] = React.useState(undefined);
+  const [thumbnail, setThumbnail] = React.useState('');
   const [type, setType] = React.useState(undefined);
   const [nbath, setNbath] = React.useState(undefined);
   const [nbed, setNbed] = React.useState(undefined);

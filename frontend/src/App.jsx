@@ -24,7 +24,7 @@ function App () {
       <Alert severity="error" onClose={() => { setError('') }}>{error}</Alert>
       }
       <Router>
-      <Banner token={token} setToken={setToken}/>
+      <Banner token={token} setToken={setToken} setError={setError}/>
         <Routes>
           <Route path="/" element={<Landingpage token={token} setToken={setToken} setError={setError}/>} />
           <Route path="/login" element={<Login token={token} setToken={setToken} setError={setError}/>} />

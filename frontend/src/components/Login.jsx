@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { Container, TextField, Typography } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { FuncButton } from './FuncButton';
+import { TextInput } from './TextInput';
 import axios from 'axios';
 
 export function Login (props) {
@@ -33,17 +34,8 @@ export function Login (props) {
             <Typography variant="h4" gutterBottom>
                 Login
             </Typography>
-            <TextField
-            label="Username"
-            variant="outlined"
-            fullWidth sx={{ mb: 2 }}
-            onChange={(event) => setEmail(event.target.value)} />
-            <TextField
-            label="Password"
-            variant="outlined"
-            type='password'
-            fullWidth sx={{ mb: 2 }}
-            onChange={(event) => setPassword(event.target.value)} />
+            <TextInput label="Email" function={(event) => setEmail(event.target.value)}/>
+            <TextInput label="Password" type="password" function={(event) => setPassword(event.target.value)}/>
             <FuncButton enabled={true} submit={true} color={'primary'} text={'Sign In'}/>
         </form>
     </Container>

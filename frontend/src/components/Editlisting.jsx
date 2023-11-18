@@ -178,10 +178,7 @@ export function Editlisting (props) {
           style={ { marginLeft: '5%' } }
           onChange={async (event) => {
             const files = Array.from(event.target.files);
-            const newImageForm = [];
-            for (const picture of files) {
-              newImageForm.push(getBase64(picture));
-            }
+            const newImageForm = await Promise.all(files.map(getBase64));
             setPImages(newImageForm);
           }} />
         </Typography>
